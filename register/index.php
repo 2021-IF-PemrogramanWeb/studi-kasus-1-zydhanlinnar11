@@ -3,7 +3,6 @@
 session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once "../config.php";
     
     // Register user
     $name = $_POST['name'];
@@ -45,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // All data is in valid state
     $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
+    require_once "../config.php";
     if($statement = mysqli_prepare($link, $sql)) {
         mysqli_stmt_bind_param($statement, "sss", $name, $email, password_hash($password, PASSWORD_BCRYPT));
         if (mysqli_stmt_execute($statement)) {
@@ -55,12 +55,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION["warning"] = "Can't create account";
         }
         mysqli_stmt_close($statement);
-        exit;
     } else {
         header("location: /register");
         $_SESSION["warning"] = "Can't create account";
-        exit;
     }
+    exit;
 }
 
 if ($_SESSION["loggedin"] ?? false) {

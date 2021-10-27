@@ -4,7 +4,67 @@ session_start();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validasi user
-    var_dump($_POST);
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if(empty($email)) {
+        header('location: /register');
+        $_SESSION["warning"] = "Email can't be empty";
+        exit;
+    }
+    if(!preg_match('/^[a-zA-Z0-9_@.]+$/', $email)) {
+        header('location: /register');
+        $_SESSION["warning"] = "Email can only contain letters, numbers, dot, and underscores.";
+        exit;
+    }
+
+    if(empty($password)) {
+        header('location: /register');
+        $_SESSION["warning"] = "Password can't be empty";
+        exit;
+    }
+    if(!preg_match('/^[a-zA-Z0-9_]+$/', $password)) {
+        header('location: /register');
+        $_SESSION["warning"] = "Password can only contain letters, numbers, and underscores.";
+        exit;
+    }
+
+    $sql = "SELECT id, password FROM users WHERE email = ?";
+    require_once "../config.php";
+    if(($statement = mysqli_prepare($link, $sql)) === false) {
+        header("location: /login");
+        $_SESSION["warning"] = "Internal error";
+        exit;
+    }
+    mysqli_stmt_bind_param($statement, "s", $email);
+    if (!mysqli_stmt_execute($statement)) {
+        header("location: /login");
+        $_SESSION["warning"] = "Internal error";
+        mysqli_stmt_close($statement);
+        exit;
+    }
+    mysqli_stmt_store_result($statement);
+
+    if(mysqli_stmt_num_rows($statement) != 1) {
+        header("location: /login");
+        $_SESSION["warning"] = "Wrong email or password";
+        mysqli_stmt_close($statement);
+        exit;
+    }
+    $hashed_password = "";
+    $id = "";
+    mysqli_stmt_bind_result($statement, $id, $hashed_password);
+    if (!mysqli_stmt_fetch($statement) && !password_verify($password, $hashed_password)) {
+        header("location: /login");
+        $_SESSION["warning"] = "Wrong email or password";
+        mysqli_stmt_close($statement);
+        exit;
+    }
+    $_SESSION["loggedin"] = true;
+    $_SESSION["id"] = $id;
+    header("location: /");
+
+    mysqli_stmt_close($statement);
     exit;
 }
 
@@ -31,6 +91,10 @@ if ($_SESSION["loggedin"] ?? false) {
             if (isset($_SESSION['success_msg'])) {
                 echo '<div class="alert alert-success" role="alert">'. $_SESSION['success_msg'] .'</div>';
                 unset($_SESSION['success_msg']);
+            }
+            if (isset($_SESSION['warning'])) {
+                echo '<div class="alert alert-danger" role="alert">'. $_SESSION['warning'] .'</div>';
+                unset($_SESSION['warning']);
             }
         ?>
         <div class="mb-3">
