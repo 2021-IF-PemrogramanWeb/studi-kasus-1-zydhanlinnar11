@@ -42,82 +42,114 @@ while (mysqli_stmt_fetch($statement)) {
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="/">Pemrograman Web</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Log out</a>
-                </li>
-            </ul>
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Pemrograman Web</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Log out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex justify-content-center">
+        <h3 class="mx-auto">Grafik</h3>
+    </div>
+    <div class="d-flex justify-content-center">
+        <div class="chart-container" style="position: relative; width:80vw">
+            <canvas id="myChart" data-json="<?php echo htmlspecialchars(json_encode($result)) ?>"></canvas>
         </div>
     </div>
-    </nav>
-<div class="d-flex justify-content-center">
-    <div class="chart-container" style="position: relative; height:40vh; width:80vw">
-        <canvas id="myChart" data-json="<?php echo htmlspecialchars(json_encode($result)) ?>"></canvas>
+    <div class="d-flex justify-content-center mt-3">
+        <h3 class="mx-auto">Tabel</h3>
     </div>
-</div>
-<script>
-const ctx = document.getElementById('myChart').getContext('2d');
-const backgroundColor = [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ];
-const borderColor = [
-                'rgba(255, 99, 132, 1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ];
+    <div class="d-flex justify-content-center">
+        <table class="table" style="position: relative; width:80vw">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Periode</th>
+                    <th scope="col">Jumlah</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php
+                foreach($result as $row) { ?>
+                <tr>
+            <?php
+                echo '<th scope="row">' . $row['id'] . '</th>';
+                echo '<td>' . $row['period'] . '</td>';
+                echo '<td>' . $row['value'] . '</td>';
+            ?>
+                </tr>
+            <?php
+                }
+            ?>
+            </tbody>
+        </table>
+    </div>
+    
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const backgroundColor = [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ];
+        const borderColor = [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ];
 
-const datas = JSON.parse(document.getElementById('myChart').dataset["json"])
-const chartBackground = []
-const chartBorder = []
-const chartLabels = []
-const chartValues = []
-datas.forEach(data => {
-    chartBackground.push(backgroundColor[data.id % backgroundColor.length])
-    chartBorder.push(borderColor[data.id % borderColor.length])
-    chartLabels.push(data.period)
-    chartValues.push(data.value)
-})
-// console.log()
+        const datas = JSON.parse(document.getElementById('myChart').dataset["json"])
+        const chartBackground = []
+        const chartBorder = []
+        const chartLabels = []
+        const chartValues = []
+        datas.forEach(data => {
+            chartBackground.push(backgroundColor[data.id % backgroundColor.length])
+            chartBorder.push(borderColor[data.id % borderColor.length])
+            chartLabels.push(data.period)
+            chartValues.push(data.value)
+        })
+        // console.log()
 
-const myChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-        labels: chartLabels,
-        datasets: [{
-            label: 'Jumlah mahasiswa S1 Teknik Informatika ITS',
-            data: chartValues,
-            backgroundColor: chartBackground,
-            borderColor: chartBorder,
-            borderWidth: 1
-        }]
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: chartLabels,
+                datasets: [{
+                    label: 'Jumlah mahasiswa S1 Teknik Informatika ITS',
+                    data: chartValues,
+                    backgroundColor: chartBackground,
+                    borderColor: chartBorder,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
-        }
-    }
-});
-</script>
+        });
+    </script>
 </body>
 </html>
