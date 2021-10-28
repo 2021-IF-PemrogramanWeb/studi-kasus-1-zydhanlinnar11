@@ -8,3 +8,17 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 ); 
+
+CREATE TABLE JML_MHS (
+    id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    periode VARCHAR(15) NOT NULL UNIQUE,
+    val INT NOT NULL
+);
+
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2018', 895);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2018', 749);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2019', 930);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2019', 815);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2020', 942);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2020', 931);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2021', 1030);
