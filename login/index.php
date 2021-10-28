@@ -54,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hashed_password = "";
     $id = "";
     mysqli_stmt_bind_result($statement, $id, $hashed_password);
-    if (!mysqli_stmt_fetch($statement) && !password_verify($password, $hashed_password)) {
+    if (!mysqli_stmt_fetch($statement) || !password_verify($password, $hashed_password)) {
         header("location: /login");
         $_SESSION["warning"] = "Wrong email or password";
         mysqli_stmt_close($statement);
