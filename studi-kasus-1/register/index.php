@@ -10,34 +10,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if(empty(trim($name))) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Name can't be empty";
         exit;
     }
     if(!preg_match('/^[ a-zA-Z0-9]+$/', trim($name))) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Name can only contain letters, numbers, and space.";
         exit;
     }
 
     if(empty($email)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Email can't be empty";
         exit;
     }
     if(!preg_match('/^[a-zA-Z0-9_@.]+$/', $email)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Email can only contain letters, numbers, dot, and underscores.";
         exit;
     }
 
     if(empty($password)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Password can't be empty";
         exit;
     }
     if(!preg_match('/^[a-zA-Z0-9_]+$/', $password)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Password can only contain letters, numbers, and underscores.";
         exit;
     }
@@ -49,22 +49,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashed = password_hash($password, PASSWORD_BCRYPT);
         mysqli_stmt_bind_param($statement, "sss", $name, $email, $hashed);
         if (mysqli_stmt_execute($statement)) {
-            header("location: /login");
+            header("location: /studi-kasus-1/login");
             $_SESSION["success_msg"] = "Account created";
         } else {
-            header("location: /register");
+            header("location: /studi-kasus-1/register");
             $_SESSION["warning"] = "Can't create account";
         }
         mysqli_stmt_close($statement);
     } else {
-        header("location: /register");
+        header("location: /studi-kasus-1/register");
         $_SESSION["warning"] = "Can't create account";
     }
     exit;
 }
 
 if ($_SESSION["loggedin"] ?? false) {
-    header('location: /');
+    header('location: /studi-kasus-1/');
     exit;
 }
 ?>
@@ -110,7 +110,7 @@ if ($_SESSION["loggedin"] ?? false) {
             </div>
         </div>
         <div class="mb-3">
-            <small>Already have an account? <a href="/login" class="text-decoration-none">Login</a></small>
+            <small>Already have an account? <a href="/studi-kasus-1/login" class="text-decoration-none">Login</a></small>
         </div>
         <div>
             <button type="submit" class="btn btn-primary w-100">Register</button>

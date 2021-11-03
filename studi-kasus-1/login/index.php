@@ -8,23 +8,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'];
 
     if(empty($email)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Email can't be empty";
         exit;
     }
     if(!preg_match('/^[a-zA-Z0-9_@.]+$/', $email)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Email can only contain letters, numbers, dot, and underscores.";
         exit;
     }
 
     if(empty($password)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Password can't be empty";
         exit;
     }
     if(!preg_match('/^[a-zA-Z0-9_]+$/', $password)) {
-        header('location: /register');
+        header('location: /studi-kasus-1/register');
         $_SESSION["warning"] = "Password can only contain letters, numbers, and underscores.";
         exit;
     }
@@ -32,13 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "SELECT id, password FROM users WHERE email = ?";
     require_once "../config.php";
     if(($statement = mysqli_prepare($link, $sql)) === false) {
-        header("location: /login");
+        header("location: /studi-kasus-1/login");
         $_SESSION["warning"] = "Internal error";
         exit;
     }
     mysqli_stmt_bind_param($statement, "s", $email);
     if (!mysqli_stmt_execute($statement)) {
-        header("location: /login");
+        header("location: /studi-kasus-1/login");
         $_SESSION["warning"] = "Internal error";
         mysqli_stmt_close($statement);
         exit;
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_store_result($statement);
 
     if(mysqli_stmt_num_rows($statement) != 1) {
-        header("location: /login");
+        header("location: /studi-kasus-1/login");
         $_SESSION["warning"] = "Wrong email or password";
         mysqli_stmt_close($statement);
         exit;
@@ -55,21 +55,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = "";
     mysqli_stmt_bind_result($statement, $id, $hashed_password);
     if (!mysqli_stmt_fetch($statement) || !password_verify($password, $hashed_password)) {
-        header("location: /login");
+        header("location: /studi-kasus-1/login");
         $_SESSION["warning"] = "Wrong email or password";
         mysqli_stmt_close($statement);
         exit;
     }
     $_SESSION["loggedin"] = true;
     $_SESSION["id"] = $id;
-    header("location: /");
+    header("location: /studi-kasus-1/");
 
     mysqli_stmt_close($statement);
     exit;
 }
 
 if ($_SESSION["loggedin"] ?? false) {
-    header('location: /');
+    header('location: /studi-kasus-1/');
     exit;
 }
 ?>
@@ -112,7 +112,7 @@ if ($_SESSION["loggedin"] ?? false) {
             </div>
         </div>
         <div class="mb-3">
-            <small>Don't have an account? <a href="/register" class="text-decoration-none">Register</a></small>
+            <small>Don't have an account? <a href="/studi-kasus-1/register" class="text-decoration-none">Register</a></small>
         </div>
         <div>
             <button type="submit" class="btn btn-primary w-100">Login</button>

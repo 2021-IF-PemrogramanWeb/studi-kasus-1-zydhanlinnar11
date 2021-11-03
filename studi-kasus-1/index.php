@@ -3,19 +3,19 @@
 session_start();
 
 if(!($_SESSION["loggedin"] ?? false)) {
-    header('location: /login');
+    header('location: /studi-kasus-1/login');
     exit;
 }
 
 require_once "./config.php";
 $sql = "SELECT * FROM JML_MHS WHERE 1";
 if(($statement = mysqli_prepare($link, $sql)) === false) {
-    header("location: /");
+    header("location: /studi-kasus-1/");
     $_SESSION["warning"] = "Internal error";
     exit;
 }
 if (!mysqli_stmt_execute($statement)) {
-    header("location: /");
+    header("location: /studi-kasus-1/");
     $_SESSION["warning"] = "Internal error";
     mysqli_stmt_close($statement);
     exit;
@@ -43,7 +43,7 @@ while (mysqli_stmt_fetch($statement)) {
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/">Pemrograman Web</a>
+            <a class="navbar-brand" href="/studi-kasus-1">Pemrograman Web</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -55,7 +55,7 @@ while (mysqli_stmt_fetch($statement)) {
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="/logout">Log out</a>
+                        <a class="nav-link" href="/studi-kasus-1/logout">Log out</a>
                     </li>
                 </ul>
             </div>
