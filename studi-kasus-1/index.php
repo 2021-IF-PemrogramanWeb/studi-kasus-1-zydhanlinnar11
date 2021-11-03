@@ -50,7 +50,7 @@ while (mysqli_stmt_fetch($statement)) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="" id="chart-nav" onclick="showChart()">Chart</a>
+                        <a class="nav-link active" aria-current="page" href="#" id="chart-nav" onclick="showChart()">Chart</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#" id="table-nav" onclick="showTable()">Table</a>
