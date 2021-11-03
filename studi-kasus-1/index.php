@@ -38,10 +38,21 @@ while (mysqli_stmt_fetch($statement)) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js" integrity="sha256-bC3LCZCwKeehY6T4fFi9VfOU0gztUa+S4cnkIhVPZ5E=" crossorigin="anonymous"></script>
+    <?php if(($_SESSION['theme'] ?? "light") == "dark") { ?>
+    <style>
+        body, .table {
+            color: white;
+        }
+    </style>
+    <?php } ?>
     <title>Home</title>
 </head>
-<body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<body
+    <?php if(($_SESSION['theme'] ?? "light") == "dark") { ?>
+    class="bg-dark"
+    <?php } ?>
+>
+    <nav class="navbar navbar-expand-lg <?=(($_SESSION['theme'] ?? "light") == "dark") ? "navbar-dark bg-dark" : "navbar-light bg-light"?>">
         <div class="container-fluid">
             <a class="navbar-brand" href="/studi-kasus-1">Pemrograman Web</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,6 +65,11 @@ while (mysqli_stmt_fetch($statement)) {
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="#" id="table-nav" onclick="showTable()">Table</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="change-theme?theme=<?=(($_SESSION['theme'] ?? 'light') == 'dark') ? 'light' : 'dark'?>">
+                        <?=(($_SESSION['theme'] ?? 'light') == 'dark') ? 'Light Mode' : 'Dark Mode'?>
+                        </a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
@@ -70,7 +86,10 @@ while (mysqli_stmt_fetch($statement)) {
         </div>
         <div class="d-flex justify-content-center">
             <div class="chart-container" style="position: relative; width:80vw">
-                <canvas id="myChart" data-json="<?php echo htmlspecialchars(json_encode($result)) ?>"></canvas>
+                <canvas id="myChart" data-json="<?php echo htmlspecialchars(json_encode($result)) ?>"
+                data-color="<?=(($_SESSION['theme'] ?? 'light') == 'dark') ? '#fff' : '#666'?>"
+                >
+                </canvas>
             </div>
         </div>
     </div>
@@ -135,7 +154,7 @@ while (mysqli_stmt_fetch($statement)) {
             chartLabels.push(data.period)
             chartValues.push(data.value)
         })
-        // console.log()
+        Chart.defaults.color = document.getElementById('myChart')?.dataset["color"] || '#666'
 
         const myChart = new Chart(ctx, {
             type: 'bar',
