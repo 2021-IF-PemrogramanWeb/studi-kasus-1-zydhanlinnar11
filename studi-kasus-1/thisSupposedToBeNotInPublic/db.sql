@@ -15,6 +15,24 @@ CREATE TABLE JML_MHS (
     val INT NOT NULL
 );
 
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2009', 915);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2009', 696);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2010', 986);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2010', 884);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2011', 845);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2011', 643);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2012', 993);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2012', 506);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2013', 950);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2013', 699);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2014', 814);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2014', 189);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2015', 871);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2015', 870);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2016', 787);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2016', 777);
+INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2017', 701);
+INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2017', 895);
 INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2018', 895);
 INSERT INTO JML_MHS (periode, val) VALUES ('Genap 2018', 749);
 INSERT INTO JML_MHS (periode, val) VALUES ('Ganjil 2019', 930);
