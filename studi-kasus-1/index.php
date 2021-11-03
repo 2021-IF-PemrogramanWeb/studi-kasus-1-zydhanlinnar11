@@ -50,7 +50,10 @@ while (mysqli_stmt_fetch($statement)) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="" id="chart-nav" onclick="showChart()">Chart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="#" id="table-nav" onclick="showTable()">Table</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav mb-2 mb-lg-0">
@@ -61,41 +64,45 @@ while (mysqli_stmt_fetch($statement)) {
             </div>
         </div>
     </nav>
-    <div class="d-flex justify-content-center">
-        <h3 class="mx-auto">Grafik</h3>
-    </div>
-    <div class="d-flex justify-content-center">
-        <div class="chart-container" style="position: relative; width:80vw">
-            <canvas id="myChart" data-json="<?php echo htmlspecialchars(json_encode($result)) ?>"></canvas>
+    <div id="chart-container">
+        <div class="d-flex justify-content-center">
+            <h3 class="mx-auto">Grafik</h3>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="chart-container" style="position: relative; width:80vw">
+                <canvas id="myChart" data-json="<?php echo htmlspecialchars(json_encode($result)) ?>"></canvas>
+            </div>
         </div>
     </div>
-    <div class="d-flex justify-content-center mt-3">
-        <h3 class="mx-auto">Tabel</h3>
-    </div>
-    <div class="d-flex justify-content-center">
-        <table class="table" style="position: relative; width:80vw">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Periode</th>
-                    <th scope="col">Jumlah</th>
-                </tr>
-            </thead>
-            <tbody>
-            <?php
-                foreach($result as $row) { ?>
-                <tr>
-            <?php
-                echo '<th scope="row">' . $row['id'] . '</th>';
-                echo '<td>' . $row['period'] . '</td>';
-                echo '<td>' . $row['value'] . '</td>';
-            ?>
-                </tr>
-            <?php
-                }
-            ?>
-            </tbody>
-        </table>
+    <div id="table-container" class="d-none">
+        <div class="d-flex justify-content-center">
+            <h3 class="mx-auto">Tabel</h3>
+        </div>
+        <div class="d-flex justify-content-center">
+            <table class="table" style="position: relative; width:80vw">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Periode</th>
+                        <th scope="col">Jumlah</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php
+                    foreach($result as $row) { ?>
+                    <tr>
+                <?php
+                    echo '<th scope="row">' . $row['id'] . '</th>';
+                    echo '<td>' . $row['period'] . '</td>';
+                    echo '<td>' . $row['value'] . '</td>';
+                ?>
+                    </tr>
+                <?php
+                    }
+                ?>
+                </tbody>
+            </table>
+        </div>
     </div>
     
     <script>
@@ -150,6 +157,27 @@ while (mysqli_stmt_fetch($statement)) {
                 }
             }
         });
+    </script>
+
+    <script>
+        const navTable = document.getElementById('table-nav')
+        const navChart = document.getElementById('chart-nav')
+        const tableContainer = document.getElementById('table-container')
+        const chartContainer = document.getElementById('chart-container')
+
+        function showTable() {
+            navTable.classList.add("active")
+            navChart.classList.remove("active")
+            tableContainer.classList.remove("d-none")
+            chartContainer.classList.add("d-none")
+        }
+
+        function showChart() {
+            navChart.classList.add("active")
+            navTable.classList.remove("active")
+            chartContainer.classList.remove("d-none")
+            tableContainer.classList.add("d-none")
+        }
     </script>
 </body>
 </html>
