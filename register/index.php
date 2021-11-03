@@ -46,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "INSERT INTO users (name, email, password) VALUES (?, ?, ?)";
     require_once "../config.php";
     if($statement = mysqli_prepare($link, $sql)) {
-        mysqli_stmt_bind_param($statement, "sss", $name, $email, password_hash($password, PASSWORD_BCRYPT));
+        $hashed = password_hash($password, PASSWORD_BCRYPT);
+        mysqli_stmt_bind_param($statement, "sss", $name, $email, $hashed);
         if (mysqli_stmt_execute($statement)) {
             header("location: /login");
             $_SESSION["success_msg"] = "Account created";

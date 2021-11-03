@@ -8,7 +8,7 @@ if(!($_SESSION["loggedin"] ?? false)) {
 }
 
 require_once "./config.php";
-$sql = "SELECT * FROM jml_mhs WHERE 1";
+$sql = "SELECT * FROM JML_MHS WHERE 1";
 if(($statement = mysqli_prepare($link, $sql)) === false) {
     header("location: /");
     $_SESSION["warning"] = "Internal error";
